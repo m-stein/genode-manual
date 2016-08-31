@@ -1,0 +1,97 @@
+\begin{tikzpicture}
+
+	% colors
+	\definecolor {componentblue}   {rgb}{0.6,0.7,0.9}
+	\definecolor {componentyellow} {rgb}{0.9,0.9,0.6}
+
+	% styles
+	\tikzstyle {treenode} = [component, path fading=flow fade, align=center,
+	                         rounded corners=1, minimum width=12ex,
+	                         minimum height=5ex]
+
+	\tikzstyle {nettraffic} = [draw=black!80, ->, >=angle 60, densely dotted,
+	                           very thick, opacity=0.5]
+
+	% nic driver and nic
+	\node [treenode, bottom color=componentblue, minimum height=6ex]
+	      (nicdriver) { };
+
+	\node [below=0.5ex of nicdriver.north] (nicdrivertext) {NIC driver};
+	\node [draw=black!80, fill=white, above=0ex of nicdriver.south,
+	       minimum width=9ex, opacity=0.8, inner sep=0.4ex]
+	      (nic) {\tiny NIC};
+
+	% nic router
+	\path (nicdriver.north east)+(0ex,7ex) coordinate (belownicdriver);
+	\node [treenode, minimum width=28ex, minimum height=8ex,
+	       left=-1ex of belownicdriver, bottom color=componentyellow]
+	      (nicrouter) { };
+
+	\node [above right=0.5ex of nicrouter.south west] (nicroutertext)
+	      {NIC router};
+
+	% web client and tor
+	\path (nicrouter.north)+(0ex,6.5ex) coordinate (belownicrouter);
+	\node [treenode, left=1ex of belownicrouter, bottom color=componentblue]
+	      (webclient) {Web client};
+
+	\node [treenode, right=1ex of belownicrouter, bottom color=componentblue]
+	      (tor) {TOR};
+
+	% coordinates that are used for the illustration of the net traffic
+	\path (tor.south)      +(-1ex,0ex)  coordinate (torleftslot);
+	\path (tor.south)      +(2ex,0ex)   coordinate (torrightslot);
+	\path (webclient.south)+(1ex,0ex)   coordinate (webclientrightslot);
+	\path (webclient.south)+(-2ex,0ex)  coordinate (webclientleftslot);
+	\path (nicrouter.north)+(0ex,-2ex)  coordinate (insidenicrouter);
+	\path (tor.south)      +(0ex,-10ex) coordinate (abovetor);
+	\path (webclient.south)+(-1ex,-8ex) coordinate (abovewebclient);
+	\path (webclient.south)+(-1ex,-2ex) coordinate (abovewebclient1);
+
+	% net traffic between web client and tor
+	\path [nettraffic] (webclientrightslot) ..
+	                   controls +(0ex,-6ex) and +(-4ex,0ex) ..
+	                   (insidenicrouter) ..
+	                   controls +(6ex, 0ex) and +(0ex,-4ex) ..
+	                   (torleftslot);
+
+	\node [below=0ex of insidenicrouter, opacity=0.8]
+	      {\tiny TCP 10.1.3.1:9050\ \ };
+
+	% bad net traffic attempt by web client
+	\path [nettraffic] (webclientleftslot) ..
+	                   controls +(0ex,-6ex) and +(0ex,4ex) ..
+	                   (abovewebclient);
+
+	\node [left=0.6ex of abovewebclient1, opacity=0.8]
+	      {\tiny UDP 12.3.4.56:78};
+
+	% red cross through bad net traffic attempt
+	\path (abovewebclient)+(-1ex,0.5ex)  coordinate (cross1);
+	\path (abovewebclient)+(1ex,-0.5ex)  coordinate (cross2);
+	\path (abovewebclient)+(1ex,0.5ex)   coordinate (cross3);
+	\path (abovewebclient)+(-1ex,-0.5ex) coordinate (cross4);
+
+	\path [very thick, draw=red] (cross1) -- (cross2);
+	\path [very thick, draw=red] (cross3) -- (cross4);
+
+	% net traffic between tor and nic driver
+	\path [nettraffic] (torrightslot) ..
+	                   controls +(0ex,-10ex) and +(0ex,10ex) ..
+	                   (nicdriver.north);
+
+	\node [right=0ex of abovetor, opacity=0.8] {\tiny TCP *:*};
+
+	% network illustrated as cloud
+	\node [draw, dropshadow, fill=white, cloud, cloud puffs=9,
+	       minimum width=12ex, minimum height=8ex, below left=5ex
+	       of nicdriver.west] (cloud) { };
+
+	\node [below=2.5ex of cloud.north] {\it\sffamily Network};
+
+	% net traffic between nic and network
+	\path [nettraffic, <->] (nicdriver.south) ..
+	                        controls +(0ex,-8ex) and +(0ex,0ex) ..
+	                        (cloud.east);
+
+\end{tikzpicture}
