@@ -14,21 +14,21 @@
 	                           very thick, opacity=0.5]
 
 	\tikzstyle {label}  = [inner sep=0.3ex]
-	\tikzstyle {labelo} = [label, opacity=0.5]
+	\tikzstyle {labelo} = [label, opacity=0.6]
 	\tikzstyle {threatLR} = [path fading=flow fade, shape=single arrow,
 	                        right color=white, left color=threatred,
 	                        inner xsep=3ex, inner ysep=0.8ex, transform canvas={rotate=180}]
 
 
-	\tikzstyle {helmutharrow} = [draw, -{Latex[scale=0.7]}]
-	\tikzstyle {helmutharrow1} = [draw, {Latex[scale=0.7]}-{Latex[scale=0.7]}]
+	\tikzstyle {helmutharrow} = [draw, ->, >=latex]
+	\tikzstyle {helmutharrow1} = [draw, <->, >=latex]
 
 	% Web Server
 	\node [treenode, bottom color=componentblue] (www) {Web Server};
 	\path (www.north east)+(-8ex,-1.2ex) coordinate (wwwNE);
 	\path (www.north west)+(3ex,-2.5ex)  coordinate (wwwNW);
-	\path (www.south east)+(-4ex,1ex)    coordinate (wwwSE);
-	\path (www.south west)+(4ex,1ex)     coordinate (wwwSW);
+	\path (www.south east)+(-4ex,1.5ex)    coordinate (wwwSE);
+	\path (www.south west)+(4ex,1.5ex)     coordinate (wwwSW);
 	\path (www.east)      +(-1ex, 1.5ex) coordinate (wwwE);
 	\path (www.west)      +(2ex,-1.5ex)  coordinate (wwwW);
 	\node [labelo, below=0ex of wwwNW] {\tiny HTTP};
@@ -40,10 +40,10 @@
 
 	% Linux Kernel
 	\node [treenode, bottom color=componentblue, below=5ex of www] (linux) {Linux Kernel};
-	\path (linux.north east)+(-4ex,-1ex)  coordinate (linuxNE);
-	\path (linux.north west)+(4ex,-1ex)   coordinate (linuxNW);
-	\path (linux.south east)+(-4ex,1ex)   coordinate (linuxSE);
-	\path (linux.south west)+(4ex,1ex)    coordinate (linuxSW);
+	\path (linux.north east)+(-4ex,-1.5ex)  coordinate (linuxNE);
+	\path (linux.north west)+(4ex,-1.5ex)   coordinate (linuxNW);
+	\path (linux.south east)+(-4ex,1.5ex)   coordinate (linuxSE);
+	\path (linux.south west)+(4ex,1.5ex)    coordinate (linuxSW);
 	\path (linux.west)      +(0ex,-1.8ex) coordinate (linuxW);
 	\path (linux.east)      +(-1ex,1.8ex) coordinate (linuxE);
 	\path (linux.south)     +(1ex,1.8ex) coordinate (linuxS);

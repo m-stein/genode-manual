@@ -28,7 +28,7 @@
 	                        right color=white, left color=threatred,
 	                        inner xsep=3ex, inner ysep=0.8ex, transform canvas={rotate=180}]
 
-	\tikzstyle {helmutharrow} = [draw, -{Latex[scale=0.9]}]
+	\tikzstyle {helmutharrow} = [draw, ->, >=latex]
 
 
 %	\tikzstyle {threatRL} = [path fading=flow fade, shape=single arrow,
