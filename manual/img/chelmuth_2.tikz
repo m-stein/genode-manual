@@ -1,0 +1,280 @@
+\begin{tikzpicture}
+
+	% colors
+	\definecolor {componentblue}   {rgb}{0.7,0.8,0.9}
+	\definecolor {componentyellow} {rgb}{0.9,0.9,0.6}
+	\definecolor {threatred}       {rgb}{1,0.6,0.5}
+
+	% styles
+	\tikzstyle {treenode} = [component, path fading=flow fade, align=center,
+	                         rounded corners=1, minimum width=12ex,
+	                         minimum height=5ex]
+
+	% styles
+	\tikzstyle {surround} = [fill=black!30!white, align=center,
+	                         rounded corners=1, minimum width=14ex,
+	                         minimum height=24ex]
+
+	\tikzstyle {surround2} = [fill=black!30!white, align=center,
+	                         rounded corners=1, minimum width=47.2ex,
+	                         minimum height=14ex]
+
+	\tikzstyle {nettraffic} = [draw=black!80, ->, >=angle 60, densely dotted,
+	                           very thick, opacity=0.5]
+
+	\tikzstyle {label}  = [inner sep=0.3ex]
+	\tikzstyle {labelo} = [label, text=white]
+	\tikzstyle {threatLR} = [path fading=flow fade, shape=single arrow,
+	                        right color=white, left color=threatred,
+	                        inner xsep=3ex, inner ysep=0.8ex, transform canvas={rotate=180}]
+
+	\tikzstyle {helmutharrow} = [draw, -{Latex[scale=0.9]}]
+
+
+%	\tikzstyle {threatRL} = [path fading=flow fade, shape=single arrow,
+%	                        right color=white, left color=threatred, rotate=180,
+%	                        inner xsep=3ex, inner ysep=0.8ex]
+
+
+	\node [treenode, bottom color=componentblue] (eth) {Ethernet};
+	\node [treenode, bottom color=componentblue, right=5ex of eth] (rou) {Routing};
+
+	\path (eth.west)+(-3ex,0ex) coordinate (etharr);
+	\path [helmutharrow] (etharr) -- (eth);
+
+	\node [surround, above=2.5ex of rou] (rem) {};
+	\node [labelo, below=1ex of rem.north] {\scriptsize \textbf{Remote Admin}};
+	\node [treenode, bottom color=componentblue, above=1.5ex of rem.south] (remtcp) {TCP/IP};
+	\node [treenode, bottom color=componentblue, above=1.5ex of remtcp] (remtls) {TLS};
+	\node [treenode, bottom color=componentblue, above=1.5ex of remtls] (adm) {Admin};
+
+	\node [surround, above=2.5ex of eth] (loc) {};
+	\node [labelo, below=1ex of loc.north] {\scriptsize \textbf{Local User}};
+	\node [treenode, bottom color=componentblue, above=1.5ex of loc.south] (vid) {Video};
+	\node [treenode, bottom color=componentblue, above=1.5ex of vid] (gui) {GUI};
+
+	\node [surround, right=2ex of rem] (app) {};
+	\node [labelo, below=1ex of app.north] {\scriptsize \textbf{Application ABI}};
+	\node [treenode, bottom color=componentblue, above=1.5ex of app.south] (apptcp) {TCP/IP};
+	\node [treenode, bottom color=componentblue, above=1.5ex of apptcp] (apptls) {TLS};
+	\node [treenode, bottom color=componentblue, above=1.5ex of apptls] (web) {Web Server};
+
+	\path (loc.north west)+(0ex,2ex) coordinate (devSE);
+	\node [surround2, above right=0ex of devSE] (dev) {};
+	\node [labelo, below=1ex of dev.north] {\scriptsize \textbf{Device Control}};
+	\node [treenode, bottom color=componentblue, above=3.5ex of app.north] (con) {Control};
+	\node [treenode, bottom color=componentblue, above=3.5ex of rem.north] (adc) {Admin Control};
+	\node [treenode, bottom color=componentblue, above=3.5ex of loc.north] (usc) {User Control};
+
+	\path (dev.north west)+(-2ex,-1ex) coordinate (logNE);
+	\node [treenode, bottom color=componentblue, below left=0ex of logNE] (log) {Logging};
+	\node [treenode, bottom color=componentblue, below=1.5ex of log] (can) {CAN};
+
+	\path (rou.east)+(10ex,0ex) coordinate (rouapptcp);
+	\path [helmutharrow] (eth) -- (rou);
+	\path [helmutharrow] (rou) -- (remtcp);
+	\path [helmutharrow] (rou) -- (rouapptcp) -- (apptcp);
+	\path [helmutharrow] (vid) -- (gui);
+	\path [helmutharrow] (gui) -- (usc);
+	\path [helmutharrow] (remtcp) -- (remtls);
+	\path [helmutharrow] (remtls) -- (adm);
+	\path [helmutharrow] (adm) -- (adc);
+	\path [helmutharrow] (apptcp) -- (apptls);
+	\path [helmutharrow] (apptls) -- (web);
+	\path [helmutharrow] (web) -- (con);
+
+	\path (dev.west |- log.east) coordinate (logarr);
+	\path (dev.west |- can.east) coordinate (canarr);
+	\path [helmutharrow] (logarr) -- (log);
+	\path [helmutharrow] (canarr) -- (can);
+
+%	% Web Server
+%	\node [treenode, bottom color=componentblue] (www) {Web Server};
+%	\path (www.north east)+(-8ex,-1.2ex) coordinate (wwwNE);
+%	\path (www.north west)+(3ex,-2.5ex)  coordinate (wwwNW);
+%	\path (www.south east)+(-4ex,1ex)    coordinate (wwwSE);
+%	\path (www.south west)+(4ex,1ex)     coordinate (wwwSW);
+%	\path (www.east)      +(-1ex, 1.5ex) coordinate (wwwE);
+%	\path (www.west)      +(2ex,-1.5ex)  coordinate (wwwW);
+%	\node [labelo, below=0ex of wwwNW] {\tiny HTTP};
+%	\node [labelo, below=0ex of wwwNE] {\tiny Rest API};
+%	\node [labelo, right=0ex of wwwW]  {\tiny TLS};
+%	\node [labelo,  left=0ex of wwwE]  {\tiny Crypto};
+%	\node [label,  above=0ex of wwwSE] {\tiny Database};
+%	\node [label,  above=0ex of wwwSW] {\tiny Network};
+%
+%	% Linux Kernel
+%	\node [treenode, bottom color=componentblue, below=5ex of www] (linux) {Linux Kernel};
+%	\path (linux.north east)+(-4ex,-1ex)  coordinate (linuxNE);
+%	\path (linux.north west)+(4ex,-1ex)   coordinate (linuxNW);
+%	\path (linux.south east)+(-4ex,1ex)   coordinate (linuxSE);
+%	\path (linux.south west)+(4ex,1ex)    coordinate (linuxSW);
+%	\path (linux.west)      +(0ex,-1.8ex) coordinate (linuxW);
+%	\path (linux.east)      +(-1ex,1.8ex) coordinate (linuxE);
+%	\path (linux.south)     +(1ex,1.8ex) coordinate (linuxS);
+%	\node [label,  below=0ex of linuxNE] {\tiny Filesystem};
+%	\node [label,  below=0ex of linuxNW] {\tiny TCP/IP};
+%	\node [labelo, right=0ex of linuxW]  {\tiny User ACC};
+%	\node [labelo,  left=0ex of linuxE]  {\tiny ACPI};
+%	\node [label,  above=0ex of linuxSW] {\tiny Ethernet};
+%	\node [label,  above=0ex of linuxSE] {\tiny SATA};
+%	\node [labelo, above=0ex of linuxS]  {\tiny Logging};
+%
+%	\path [arrow, <->] (wwwSE) -- (linuxNE);
+%	\path [arrow, <->] (wwwSW) -- (linuxNW);
+%
+%	\path (linux.south east)+(-4ex,-1ex) coordinate (linuxSE1);
+%	\path (linux.south west)+(4ex,-1ex)  coordinate (linuxSW1);
+%	\path [arrow, ->] (linuxSE1) -- (linuxSE);
+%	\path [arrow, ->] (linuxSW1) -- (linuxSW);
+%
+%		% www threat links
+%		\node[
+%			path fading=threatfade, shape=single arrow,
+%			left color=white, right color=threatred, rotate=350,
+%			inner xsep=3ex, inner ysep=0.8ex,
+%			left=1ex of www] (threat1) { };
+%		\node[right=0ex of threat1.west] {};
+%
+%		% www threat rechts
+%		\path (www.east)+(0ex,1.2ex) coordinate (threat2p);
+%		\node[
+%			path fading=threatfade, shape=single arrow,
+%			left color=threatred, right color=white, rotate=190,
+%			inner xsep=3ex, inner ysep=0.8ex,
+%			right=8ex of threat2p] (threat2) { };
+%		\node[left=0ex of threat2.east] {};
+%
+%		% www threat oben rechts
+%		\path (www.north east)+(-4ex,4.8ex) coordinate (threat3p);
+%		\node[
+%			path fading=threatfade, shape=single arrow,
+%			bottom color=threatred, top color=white, rotate=250,
+%			inner xsep=3ex, inner ysep=0.8ex,
+%			above=0ex of threat3p] (threat3) { };
+%		\node[below=0ex of threat3.north] {};
+%
+%		% www threat oben links
+%		\path (www.north west)+(3ex,4ex) coordinate (threat4p);
+%		\node[
+%			path fading=threatfade, shape=single arrow,
+%			bottom color=threatred, top color=white, rotate=290,
+%			inner xsep=3ex, inner ysep=0.8ex,
+%			above=0ex of threat4p] (threat4) { };
+%		\node[below=0ex of threat4.north] {};
+%
+%		% www threat links
+%		\node[
+%			path fading=threatfade, shape=single arrow,
+%			left color=white, right color=threatred, rotate=10,
+%			inner xsep=3ex, inner ysep=0.8ex,
+%			left=1ex of linux] (threat1) { };
+%		\node[right=0ex of threat1.west] {};
+%
+%
+%		% www threat rechts
+%		\path (linux.east)+(0ex,-1.2ex) coordinate (threat2p);
+%		\node[
+%			path fading=threatfade, shape=single arrow,
+%			left color=threatred, right color=white, rotate=170,
+%			inner xsep=3ex, inner ysep=0.8ex,
+%			right=8ex of threat2p] (threat2) { };
+%		\node[left=0ex of threat2.east] {};
+%
+%		% www threat unten links
+%		\path (linux.south west)+(3ex,-4.5ex) coordinate (threat99p);
+%		\node[
+%			path fading=threatfade, shape=single arrow,
+%			bottom color=white, top color=threatred, rotate=70,
+%			inner xsep=3ex, inner ysep=0.8ex,
+%			below=0ex of threat99p] (threat99) { };
+%		\node[below=0ex of threat99.north] {};
+%
+%		% www threat oben rechts
+%		\path (linux.south east)+(-4.5ex,-5.2ex) coordinate (threat3p);
+%		\node[
+%			path fading=threatfade, shape=single arrow,
+%			bottom color=white, top color=threatred, rotate=110,
+%			inner xsep=3ex, inner ysep=0.8ex,
+%			below=0ex of threat3p] (threat3) { };
+%		\node[below=0ex of threat3.north] {};
+
+
+%	\node [draw=black!80, fill=white, above=0ex of nicdriver.south,
+%	       minimum width=9ex, opacity=0.8, inner sep=0.4ex]
+%	      (nic) {\tiny NIC};
+%
+%	% nic router
+%	\path (nicdriver.north east)+(0ex,7ex) coordinate (belownicdriver);
+%	\node [treenode, minimum width=28ex, minimum height=8ex,
+%	       left=-1ex of belownicdriver, bottom color=componentyellow]
+%	      (nicrouter) { };
+%
+%	\node [above right=0.5ex of nicrouter.south west] (nicroutertext)
+%	      {NIC router};
+%
+%	% web client and tor
+%	\path (nicrouter.north)+(0ex,6.5ex) coordinate (belownicrouter);
+%	\node [treenode, left=1ex of belownicrouter, bottom color=componentblue]
+%	      (webclient) {Web client};
+%
+%	\node [treenode, right=1ex of belownicrouter, bottom color=componentblue]
+%	      (tor) {TOR};
+%
+%	% coordinates that are used for the illustration of the net traffic
+%	\path (tor.south)      +(-1ex,0ex)  coordinate (torleftslot);
+%	\path (tor.south)      +(2ex,0ex)   coordinate (torrightslot);
+%	\path (webclient.south)+(1ex,0ex)   coordinate (webclientrightslot);
+%	\path (webclient.south)+(-2ex,0ex)  coordinate (webclientleftslot);
+%	\path (nicrouter.north)+(0ex,-2ex)  coordinate (insidenicrouter);
+%	\path (tor.south)      +(0ex,-10ex) coordinate (abovetor);
+%	\path (webclient.south)+(-1ex,-8ex) coordinate (abovewebclient);
+%	\path (webclient.south)+(-1ex,-2ex) coordinate (abovewebclient1);
+%
+%	% net traffic between web client and tor
+%	\path [nettraffic] (webclientrightslot) ..
+%	                   controls +(0ex,-6ex) and +(-4ex,0ex) ..
+%	                   (insidenicrouter) ..
+%	                   controls +(6ex, 0ex) and +(0ex,-4ex) ..
+%	                   (torleftslot);
+%
+%	\node [below=0ex of insidenicrouter, opacity=0.8]
+%	      {\tiny TCP 10.1.3.1:9050\ \ };
+%
+%	% bad net traffic attempt by web client
+%	\path [nettraffic] (webclientleftslot) ..
+%	                   controls +(0ex,-6ex) and +(0ex,4ex) ..
+%	                   (abovewebclient);
+%
+%	\node [left=0.6ex of abovewebclient1, opacity=0.8]
+%	      {\tiny UDP 12.3.4.56:78};
+%
+%	% red cross through bad net traffic attempt
+%	\path (abovewebclient)+(-1ex,0.5ex)  coordinate (cross1);
+%	\path (abovewebclient)+(1ex,-0.5ex)  coordinate (cross2);
+%	\path (abovewebclient)+(1ex,0.5ex)   coordinate (cross3);
+%	\path (abovewebclient)+(-1ex,-0.5ex) coordinate (cross4);
+%
+%	\path [very thick, draw=red] (cross1) -- (cross2);
+%	\path [very thick, draw=red] (cross3) -- (cross4);
+%
+%	% net traffic between tor and nic driver
+%	\path [nettraffic] (torrightslot) ..
+%	                   controls +(0ex,-10ex) and +(0ex,10ex) ..
+%	                   (nicdriver.north);
+%
+%	\node [right=0ex of abovetor, opacity=0.8] {\tiny TCP *:*};
+%
+%	% network illustrated as cloud
+%	\node [draw, dropshadow, fill=white, cloud, cloud puffs=9,
+%	       minimum width=12ex, minimum height=8ex, below left=5ex
+%	       of nicdriver.west] (cloud) { };
+%
+%	\node [below=2.5ex of cloud.north] {\it\sffamily Network};
+%
+%	% net traffic between nic and network
+%	\path [nettraffic, <->] (nicdriver.south) ..
+%	                        controls +(0ex,-8ex) and +(0ex,0ex) ..
+%	                        (cloud.east);
+
+\end{tikzpicture}

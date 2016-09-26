@@ -13,6 +13,7 @@
 
 \usetikzlibrary{shapes,
                 arrows,
+                arrows.meta,
                 shadows.blur,
                 fit,
                 chains,
@@ -43,3 +44,11 @@
 	\shade[left color=transparent!0,
 	       right color=transparent!60] (0,0) rectangle (2,2);
 \end{tikzfadingfrompicture}
+
+\begin{tikzfadingfrompicture}[name=threatfade]
+	\shade[left color=transparent!0,
+	       right color=transparent!0] (0,0) rectangle (2,2);
+\end{tikzfadingfrompicture}
+
+
+\tikzfading[name=middle, top color=transparent!100, bottom color=transparent!100, middle color=transparent!20]
