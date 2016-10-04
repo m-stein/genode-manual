@@ -1,0 +1,16 @@
+\begin {tikzpicture}
+
+	\input{tcb.tex}
+
+	% TCB components
+	\node[tcbComponentSty, minimum height=7ex] (core) {};
+	\node[below=0ex of core.north, minimum width=8ex] (coreLabel) {Core};
+	\node[kernelSty, above=1ex of core.south] (kernel) {};
+	\node[above=1ex of core.south] {\scriptsize Kernel lib};
+
+	% LOC counts of TCB components
+	\node[right=0ex of core] {\tiny 13 KLOC};
+	\node[right=0ex of init] {\tiny 9 KLOC};
+	\node[below=2ex of core, opacity=0.6] {\bf\sffamily = 22 KLOC};
+
+\end {tikzpicture}

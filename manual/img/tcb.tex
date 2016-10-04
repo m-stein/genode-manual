@@ -1,0 +1,48 @@
+%
+% Colors
+%
+
+\definecolor{color1} {rgb} {0.7,0.7,0.8}
+\definecolor{color3} {rgb} {0.9,0.9,0.7}
+
+%
+% Styles
+%
+
+\tikzstyle{componentSty} = [
+	component, rounded corners=0.3ex, very thin,
+	draw=black, minimum width=10ex, minimum height=3ex]
+
+\tikzstyle{tcbComponentSty} = [componentSty, bottom color=color1]
+
+\tikzstyle{userComponentSty} = [
+	componentSty, bottom color=color3, minimum width=5ex]
+
+\tikzstyle{dashedBoxSty} = [
+	draw=black, densely dashed, inner sep=2ex, rounded corners=1ex,
+	fill=color1!20]
+
+\tikzstyle{kernelSty} = [
+	fill=white, minimum width=8ex, opacity=0.7, rounded corners=0.2ex,
+	minimum height=3ex]
+
+% dashed box for TCB components
+\node[dashedBoxSty, minimum height=20ex, minimum width=35ex] (dashedBox) { };
+
+% common TCB components
+\node[tcbComponentSty, below=2ex of dashedBox.north] (init) {Init};
+
+% driver components
+\node[userComponentSty, above=1ex of dashedBox] (user1) {\tiny drv};
+\node[userComponentSty, left=1ex of user1] (user2) {\tiny drv};
+\node[userComponentSty, right=1ex of user1] (user3) {\tiny drv};
+
+% app components
+\node[userComponentSty, above=1ex of user1] (user4) {\tiny srv};
+\node[userComponentSty, left=1ex of user4] (user5) {\tiny srv};
+\node[userComponentSty, right=1ex of user4] (user6) {\tiny srv};
+
+% app components
+\node[userComponentSty, above=1ex of user4] (user7) {\tiny app};
+\node[userComponentSty, left=1ex of user7] (user8) {\tiny app};
+\node[userComponentSty, right=1ex of user7] (user9) {\tiny app};

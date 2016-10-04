@@ -1,0 +1,21 @@
+\begin {tikzpicture}
+
+	\input{tcb.tex}
+
+	% TCB components
+	\node[tcbComponentSty, below=1ex of init] (core) {Core};
+	\node[tcbComponentSty, below=1ex of core] (kernel) {Kernel};
+	\node[
+		tcbComponentSty, left=1ex of core.south west, opacity=0.5,
+		minimum height=3.8ex] (sigma0) {};
+	\node[below right=0ex of sigma0.north west, opacity=0.5]
+		{\begin{varwidth}{5ex}\tiny Bootstrap\\Tools\end{varwidth}};
+
+	% LOC counts of TCB components
+	\node[right=0ex of core] {\tiny 10 - 14 KLOC};
+	\node[right=0ex of kernel] {\tiny 11 - 36 KLOC};
+	\node[above=0ex of sigma0] {\tiny 1 KLOC};
+	\node[right=0ex of init] {\tiny 9 KLOC};
+	\node[below=2ex of kernel, opacity=0.6] {\bf\sffamily = 30 - 60 KLOC};
+
+\end {tikzpicture}
