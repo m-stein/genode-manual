@@ -1,0 +1,60 @@
+\begin{tikzpicture}
+
+	% colors
+	\definecolor {fsColor}  {rgb} {1.0,0.8,0.8}
+	\definecolor {lxipColor}{rgb} {0.9,1.0,0.8}
+	\definecolor {appColor} {rgb} {0.8,0.9,1.0}
+
+	% styles
+	\tikzstyle {appStyle} = [
+		dropshadow, draw=black!50, align=center, path fading=flow fade, thin,
+		top color=black!5, bottom color=black!20, path fading=flow fade,
+		rounded corners=0.5ex, minimum width=7.5ex, minimum height=3ex, bottom
+		color=appColor, minimum width=14ex, minimum height=16ex]
+
+	% network app
+	\node [appStyle] (app) { };
+	\node [below=0ex of app.north] { Network App };
+
+	% puzzle shadow
+	\path (app.north)+(0ex,-5.08ex) coordinate (xxx);
+	\draw[dropshadow, rounded corners=0.4ex, draw=none]
+	(xxx) -- ++(5ex,0ex) -- ++(0ex,-9ex) -- ++(-10ex,0ex) -- ++(0ex,9ex) -- cycle;
+
+	% upper puzzle
+	\draw[
+		rectangle, draw, text centered, top color=white, bottom color=black!5,
+		draw=black!10, draw=black!60, path fading=flow fade,
+		align=center, bottom color=white]
+	{[rounded corners=0.4ex](xxx) -- ++(5ex,0ex)}
+	-- ++(0ex,-5ex)
+	{[rounded corners=0.2ex] -- ++(-4.6ex,0ex) -- ++(0ex,0.6ex)}
+	{[rounded corners=0.4ex] -- ++(0.6ex,0ex) -- ++(0ex,1ex) -- ++(-2ex,0ex) -- ++(0ex,-1ex)}
+	{[rounded corners=0.2ex] -- ++(0.6ex,0ex) -- ++(0ex,-0.6ex) }
+	-- ++(-4.6ex,0ex)
+	{[rounded corners=0.4ex] -- ++(0ex,5ex) -- cycle};
+	\node [below=0.5ex of xxx] {\tiny VFS};
+	
+
+	% lower puzzle
+	\path (app.south)+(0ex,2ex) coordinate (xxx);
+	\draw[
+		rectangle, draw, text centered, top color=white, bottom color=black!5,
+		draw=black!10, draw=black!60, path fading=flow fade,
+		align=center, top color=white, bottom color=lxipColor]
+	{[rounded corners=0.4ex](xxx) -- ++(5ex,0ex)}
+	-- ++(0ex,4ex)
+	{[rounded corners=0.2ex] -- ++(-4.6ex,0ex) -- ++(0ex,0.6ex)}
+	{[rounded corners=0.4ex] -- ++(0.6ex,0ex) -- ++(0ex,1ex) -- ++(-2ex,0ex) -- ++(0ex,-1ex)}
+	{[rounded corners=0.2ex] -- ++(0.6ex,0ex) -- ++(0ex,-0.6ex) }
+	-- ++(-4.6ex,0ex)
+	{[rounded corners=0.4ex] -- ++(0ex,-4ex) -- cycle};
+	\node [above=1ex of xxx] {\tiny LxIP};
+
+	% nic driver
+	\path (app.south west)+(-3ex, 0ex) coordinate (yyy);
+	\node [appStyle, above left=0ex of yyy, minimum height=4ex, minimum width=6ex] (nic) { };
+	\node [below=0.5ex of nic.north] { NIC };
+	\path [arrow] (xxx) .. controls ++(0ex, -6ex) and ++(0ex, -3ex) .. (nic.south);
+
+\end{tikzpicture}
