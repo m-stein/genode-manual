@@ -1,0 +1,47 @@
+\begin{tikzpicture}
+
+	% colors
+	\definecolor {appCodeColor}{rgb} {0.4,0.45,0.5}
+	\definecolor {appColor}    {rgb} {0.8,0.9,1.0}
+
+	% styles
+	\tikzstyle {runtimeStyle} = [
+		align=center, path fading=flow fade, thin, top color=black!5, rounded
+		corners=0.5ex, densely dotted, draw=black, bottom color=white!90!black]
+
+	\tikzstyle {appStyle} = [
+		dropshadow, draw=black!50, align=center, path fading=flow fade, thin,
+		top color=black!5, rounded corners=0.5ex, bottom color=appColor]
+
+	% genode component
+	\node [appStyle, minimum height=18.5ex, minimum width=33.5ex] (app) { };
+	\node [below=0ex of app.north, opacity=0.8] { Genode component };
+
+	% libc component
+	\path (app.north west)+(3ex,-5ex) coordinate (xxx);
+	\path (xxx)+(1.5ex,-1.5ex) coordinate (yyy);
+	\path [arrow]
+		(xxx)+(-1.5ex,1.5ex) .. controls ++(-1ex,-1ex) and ++(-1ex,0ex) ..
+		(xxx);
+	\node [right=0.3ex of xxx, inner sep=0] {
+		\tiny \texttt{Component::construct(Genode::Env \&)} };
+	\path [runtimeStyle]
+		(yyy) -- ++(14.25ex,0ex) coordinate (zzz) -- ++(14.25ex,0ex) --
+		++(0ex,-11ex) -- ++(-28.5ex,0ex) -- ++(-0.5ex,12ex) -- cycle;
+	\node [below=0ex of zzz, opacity=0.8] { \scriptsize LibC component };
+
+	% application code
+	\path (yyy)+(3ex,-5ex) coordinate (xxx);
+	\path (xxx)+(1.5ex,-1.5ex) coordinate (yyy);
+	\path [arrow]
+		(xxx)+(-1.5ex,1.5ex) .. controls ++(-1ex,-1ex) and ++(-1ex,0ex) ..
+		(xxx);
+	\node [right=0.3ex of xxx, inner sep=0] {
+		\tiny \texttt{Libc::Component::construct(Libc::Env \&)} };
+	\path [runtimeStyle]
+		(yyy) -- ++(11.75ex,0ex) coordinate (zzz) -- ++(11.75ex,0ex) --
+		++(0ex,-3.5ex) -- ++(-23.5ex,0ex) -- ++(-0.5ex,4.5ex) -- cycle;
+	\node [below=0.5ex of zzz, text=appCodeColor] {
+		\tiny \textit{Application code} };
+
+\end{tikzpicture}

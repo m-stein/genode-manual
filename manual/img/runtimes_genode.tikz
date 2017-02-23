@@ -1,0 +1,41 @@
+\begin{tikzpicture}
+
+	% colors
+	\definecolor {appCodeColor}{rgb} {0.4,0.45,0.5}
+	\definecolor {appColor}    {rgb} {0.8,0.9,1.0}
+
+	% styles
+	\tikzstyle {runtimeStyle} = [
+		align=center, path fading=flow fade, thin, top color=black!5, rounded
+		corners=0.5ex, densely dotted, draw=black, bottom color=white!90!black]
+
+	\tikzstyle {appStyle} = [
+		dropshadow, draw=black!50, align=center, path fading=flow fade, thin,
+		top color=black!5, rounded corners=0.5ex, bottom color=appColor]
+
+	% genode component
+	\node [appStyle, minimum height=15ex, minimum width=33.5ex] (app) { };
+	\node [below=0ex of app.north, opacity=0.8] { Genode component };
+
+	% application code
+	\path (app.north west)+(3ex,-5ex) coordinate (xxx);
+	\path (xxx)+(1.5ex,-1.5ex) coordinate (yyy);
+	\path [arrow]
+		(xxx)+(-1.5ex,1.5ex) .. controls ++(-1ex,-1ex) and ++(-1ex,0ex) ..
+		(xxx);
+	\node [right=0.3ex of xxx, inner sep=0] {
+		\tiny \texttt{Component::construct(Genode::Env \&)} };
+	\path [runtimeStyle]
+		(yyy) -- ++(13.25ex,0ex) coordinate (zzz) -- ++(13.25ex,0ex) --
+		++(0ex,-2.5ex) coordinate (aaa) -- ++(0ex,-2.5ex) coordinate (bbb) --
+		++(0ex,-2.5ex) -- ++(-26.5ex,0ex) -- ++(-0.5ex,8.5ex) -- cycle;
+	\node [below=2.5ex of zzz, text=appCodeColor] {
+		\tiny \textit{Application code} };
+
+	% rpc and signals
+	\path [arrow] (aaa)+(5ex,0ex) coordinate (xxx) -- (aaa);
+	\path [arrow] (bbb)+(5ex,0ex) coordinate (yyy) -- (bbb);
+	\node [right=-0.5ex of yyy] { \tiny \textit{RPC}};
+	\node [right=-0.5ex of xxx] { \tiny \textit{Signals}};
+
+\end{tikzpicture}
